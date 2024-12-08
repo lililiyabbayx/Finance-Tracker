@@ -36,6 +36,7 @@ const userController = {
     });
   }),
   //login
+  // login controller
   login: asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -74,6 +75,7 @@ const userController = {
       redirectUrl,
     });
   }),
+
   //profile
   profile: asyncHandler(async (req, res) => {
     const user = await User.findById(req.user);
