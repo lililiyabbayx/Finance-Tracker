@@ -1,38 +1,23 @@
-import  { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types'; // Import PropTypes for validation
 
-const Dashboard = ({ user }) => {
-  const navigate = useNavigate();
+import { Routes, Route } from 'react-router-dom';
+import Dashboard from './pages/Dashboard';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import AdminDashboard from './pages/AdminDashboard';
+import PersonalDashboard from './pages/PersonalDashboard';
+import BusinessDashboard from './pages/BusinessDashboard';
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-    } else {
-      // Redirect user to the appropriate dashboard based on their role
-      if (user.role === 'admin') {
-        navigate('/admin/dashboard');
-      } else if (user.role === 'personal') {
-        navigate('/personal/dashboard');
-      } else if (user.role === 'business') {
-        navigate('/business/dashboard');
-      }
-    }
-  }, [user, navigate]);
-
+const App = () => {
   return (
-    <div>
-      <h1>Welcome to Finance Tracker</h1>
-      {user && <p>Your role is: {user.role}</p>}
-    </div>
+    <Routes>
+      <Route path="/" element={<Dashboard />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/admin-dashboard" element={<AdminDashboard />} />
+      <Route path="/personal-dashboard" element={<PersonalDashboard />} />
+      <Route path="/business-dashboard" element={<BusinessDashboard />} />
+    </Routes>
   );
 };
 
-// Prop validation
-Dashboard.propTypes = {
-  user: PropTypes.shape({
-    role: PropTypes.string.isRequired,  // Ensure role is a string and required
-  }).isRequired,  // Ensure user object is passed and not null or undefined
-};
-
-export default Dashboard;
+export default App;

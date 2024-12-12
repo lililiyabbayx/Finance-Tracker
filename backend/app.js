@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
 const app = express();
 const userRouter = require("./routes/userRouter");
@@ -14,6 +15,7 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((e) => console.log(e));
 //middleware
+app.use(cors());
 app.use(express.json());
 app.use(errorHandlerMiddleware);
 //routes
