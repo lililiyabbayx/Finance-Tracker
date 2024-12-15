@@ -1,5 +1,11 @@
+// AdminDashboard.jsx
 const BusinessDashboard = () => {
-    return <h1>Welcome to the Business Dashboard</h1>;
+    return (
+      <div>
+        <h2>Business Dashboard</h2>
+        <p>Welcome, Business User!</p>
+      </div>
+    );
   };
   
   export default BusinessDashboard;
