@@ -4,8 +4,7 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import AdminDashboard from './pages/AdminDashboard';
 import PersonalDashboard from './pages/PersonalDashboard';
-import BusinessDashboard from './pages/BusinessDashboard'; // Correct casing
-
+import BusinessDashboard from './pages/BusinessDashboard';
 const App = () => {
   return (
     <Routes>

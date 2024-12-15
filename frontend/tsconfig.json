@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "paths":{
+      "@/*":["./src/*"]
+  },
+    "target": "ES6",                   // Or your preferred JavaScript version
+    "module": "commonjs",
+    "outDir": "./dist",                // Your build output directory
+    "esModuleInterop": true,
+    "strict": true,                    // Enforce strict typing
+    "jsx": "react",                    // Use React with JSX
+    "allowJs": true ,// Allow JavaScript files in your project
+    "types": ["vite/client"],          // Include type definitions for Vite
+  },
+  "include": [
+    "src/**/*"                          // Include all files in the 'src' folder
+  ],
+  "exclude": [
+    "node_modules"                     // Exclude node_modules from the compilation
+  ]
+}
