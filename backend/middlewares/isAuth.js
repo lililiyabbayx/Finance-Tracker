@@ -1,26 +1,19 @@
 const jwt = require("jsonwebtoken");
 
-const isAuth = async (req, res, next) => {
-  const headerObj = req.headers;
-  const token = headerObj?.authorization?.split(" ")[1];
-  const varifyToken = jwt.verify(
-    token,
-    process.env.JWT_SECRET,
-    (err, decoded) => {
-      if (err) {
-        return false;
-      } else {
-        return decoded;
-      }
-    }
-  );
-  if (varifyToken) {
-    req.user = varifyToken.id;
-    next();
-  } else {
-    const error = new Error("Token expired");
-    next(error);
+const isAuth = (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1]; // Extract token
+
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
   }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: "Token is not valid" });
+    }
+    req.user = decoded.id; // Attach user ID to request
+    next();
+  });
 };
 
 module.exports = isAuth;

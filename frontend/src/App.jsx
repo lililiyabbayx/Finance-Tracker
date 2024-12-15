@@ -1,11 +1,10 @@
-
 import { Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import AdminDashboard from './pages/AdminDashboard';
 import PersonalDashboard from './pages/PersonalDashboard';
-import BusinessDashboard from './pages/BusinessDashboard';
+import BusinessDashboard from './pages/BusinessDashboard'; // Correct casing
 
 const App = () => {
   return (

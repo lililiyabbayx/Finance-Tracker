@@ -1,63 +1,56 @@
-const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../model/User");
 
-//user registration
-const userController = {
-  //register
-  register: asyncHandler(async (req, res) => {
-    const { username, email, password, role } = req.body;
-    console.log(req.body);
-    if (!username || !email || !password || !role) {
-      throw new Error("Please provide all the required fields");
-    }
+// Register User
+exports.register = async (req, res, next) => {
+  const { username, email, password, role } = req.body;
 
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-      throw new Error("User already exists");
-    }
-    //hash the user password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    //create the user and save it to the database
-    const userCreated = await User.create({
-      email,
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({
       username,
+      email,
       password: hashedPassword,
       role,
     });
 
-    res.json({
-      username: userCreated.username,
-      email: userCreated.email,
-      id: userCreated._id,
-      role: userCreated.role,
+    await newUser.save();
+
+    res.status(201).json({
+      message: "User registered successfully",
     });
-  }),
-  //login
-  // login controller
-  login: asyncHandler(async (req, res) => {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      throw new Error("Please provide all the required fields");
-    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Login User
+exports.login = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  try {
     const user = await User.findOne({ email });
+
     if (!user) {
-      throw new Error("User not found");
+      return res.status(404).json({ message: "User not found" });
     }
+
     const isMatch = await bcrypt.compare(password, user.password);
+
     if (!isMatch) {
-      throw new Error("Invalid credentials");
+      return res.status(400).json({ message: "Invalid credentials" });
     }
+
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
-      {
-        expiresIn: "30d",
-      }
+      { expiresIn: "1h" }
     );
+
     let redirectUrl = "";
+
+    // Decide the redirect URL based on the user role
     if (user.role === "admin") {
       redirectUrl = "/admin-dashboard";
     } else if (user.role === "business") {
@@ -65,33 +58,19 @@ const userController = {
     } else {
       redirectUrl = "/personal-dashboard";
     }
-    res.json({
-      message: "Login successful",
-      token,
-      id: user._id,
-      email: user.email,
-      username: user.username,
-      role: user.role,
-      redirectUrl,
-    });
-  }),
 
-  //profile
-  profile: asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user);
-    if (!user) {
-      throw new Error("User not found");
-    }
-    res.json({
-      username: user.username,
-      email: user.email,
-      role: user.role,
-    });
-  }),
+    res.json({ token, redirectUrl });
+  } catch (error) {
+    next(error);
+  }
 };
 
-module.exports = {
-  register: userController.register,
-  login: userController.login,
-  profile: userController.profile,
+// Get User Profile
+exports.profile = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user);
+    res.status(200).json({ user });
+  } catch (error) {
+    next(error);
+  }
 };

@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const app = express();
 const userRouter = require("./routes/userRouter");
 const errorHandlerMiddleware = require("./middlewares/errorHandlerMiddleware");
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3300;
 //connect to mongodb
 // Check if MONGODB_URI is loaded correctly
 console.log("MongoDB URI:", process.env.MONGODB_URI);

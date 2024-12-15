@@ -1,6 +1,11 @@
+// AdminDashboard.jsx
 const PersonalDashboard = () => {
-    return <h1>Welcome to the Personal Dashboard</h1>;
-  };
-  
-  export default PersonalDashboard;
-  
+  return (
+    <div>
+      <h2>Personal Dashboard</h2>
+      <p>Welcome, Personal User!</p>
+    </div>
+  );
+};
+
+export default PersonalDashboard;
