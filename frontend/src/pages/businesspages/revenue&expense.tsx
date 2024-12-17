@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useGetKpisQuery } from "@/states/api";
-import { Box, List, ListItem, ListItemText } from "@mui/material";
+import { Box, List, ListItem, ListItemText, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import Navbar from "@/scenes/navbar"; // Ensure this path is correct
 import {
@@ -33,6 +33,11 @@ const RevenueandExpense = () => {
     <div>
       <Navbar />
       <Box sx={{ padding: 3 }}>
+        <Typography variant="h1" textAlign="center" color="#000">
+          Revenue and Expenses Overview
+        </Typography>
+      </Box>
+      <Box sx={{ padding: 3 }}>
         <h1>Revenue and Expenses Overview</h1>
         {/* Display the graph and list side by side */}
         <Box sx={{ display: "flex", gap: 2 }}>
@@ -49,8 +54,8 @@ const RevenueandExpense = () => {
               >
                 <defs>
                   <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="#7484d8" stopOpacity={0} />
+                    <stop offset="5%" stopColor="#0650C6" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#0650C6" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient
                     id="colorExpenses"
@@ -59,8 +64,8 @@ const RevenueandExpense = () => {
                     x2="0"
                     y2="1"
                   >
-                    <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="#7484d8" stopOpacity={0} />
+                    <stop offset="5%" stopColor="#0650C6" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#0650C6" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <XAxis
@@ -79,7 +84,7 @@ const RevenueandExpense = () => {
                   type="monotone"
                   dataKey="revenue"
                   dot={true}
-                  stroke="#8884d8"
+                  stroke="#0650C6"
                   fillOpacity={1}
                   fill="url(#colorRevenue)"
                 />
@@ -87,7 +92,7 @@ const RevenueandExpense = () => {
                   type="monotone"
                   dataKey="expenses"
                   dot={true}
-                  stroke="#8884d8"
+                  stroke="#0650C6"
                   fillOpacity={1}
                   fill="url(#colorExpenses)"
                 />

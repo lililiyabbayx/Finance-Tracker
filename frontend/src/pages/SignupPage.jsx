@@ -139,7 +139,8 @@ const SignupPage = () => {
               <option value="business">Business</option>
             </TextField>
           </FormControl>
-          <Button type="submit" fullWidth variant="contained">
+          <Button type="submit" fullWidth variant="contained" color="primary" >
+
             Sign Up
           </Button>
         </Box>
