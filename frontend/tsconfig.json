@@ -1,21 +1,25 @@
 {
   "compilerOptions": {
-    "paths":{
-      "@/*":["./src/*"]
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "types": ["vite/client"]
   },
-    "target": "ES6",                   // Or your preferred JavaScript version
-    "module": "commonjs",
-    "outDir": "./dist",                // Your build output directory
-    "esModuleInterop": true,
-    "strict": true,                    // Enforce strict typing
-    "jsx": "react",                    // Use React with JSX
-    "allowJs": true ,// Allow JavaScript files in your project
-    "types": ["vite/client"],          // Include type definitions for Vite
-  },
-  "include": [
-    "src/**/*"                          // Include all files in the 'src' folder
-  ],
-  "exclude": [
-    "node_modules"                     // Exclude node_modules from the compilation
-  ]
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -64,13 +64,18 @@ exports.login = async (req, res, next) => {
     next(error);
   }
 };
-
+const KPI = require("../model/KPI");
 // Get User Profile
-exports.profile = async (req, res, next) => {
+exports.profile = async (req, res) => {
   try {
-    const user = await User.findById(req.user);
-    res.status(200).json({ user });
+    const user = await User.findById(req.user); // Fetch user data by ID
+    const kpis = await KPI.find({ userId: req.user }); // Fetch KPIs for the user
+
+    res.status(200).json({
+      user,
+      kpis, // Include KPIs in the response
+    });
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
