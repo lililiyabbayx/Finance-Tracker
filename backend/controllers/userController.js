@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../model/User");
+const { seedCategoriesForUser } = require('../utils/categorySeeder');
 
 // Register User
 exports.register = async (req, res, next) => {
@@ -16,6 +17,9 @@ exports.register = async (req, res, next) => {
     });
 
     await newUser.save();
+    
+    // Seed default categories for the new user
+    await seedCategoriesForUser(newUser._id);
 
     res.status(201).json({
       message: "User registered successfully",
@@ -64,13 +68,18 @@ exports.login = async (req, res, next) => {
     next(error);
   }
 };
-
+const KPI = require("../model/KPI");
 // Get User Profile
-exports.profile = async (req, res, next) => {
+exports.profile = async (req, res) => {
   try {
-    const user = await User.findById(req.user);
-    res.status(200).json({ user });
+    const user = await User.findById(req.user); // Fetch user data by ID
+    const kpis = await KPI.find({ userId: req.user }); // Fetch KPIs for the user
+
+    res.status(200).json({
+      user,
+      kpis, // Include KPIs in the response
+    });
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
