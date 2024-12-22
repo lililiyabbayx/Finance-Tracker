@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useGetKpisQuery } from "@/states/api";
 import { Box, List, ListItem, ListItemText, Typography } from "@mui/material";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import Navbar from "@/scenes/navbar"; // Ensure this path is correct
 import {
   AreaChart,

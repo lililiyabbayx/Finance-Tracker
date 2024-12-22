@@ -9,7 +9,7 @@ import {
   Area,
 } from "recharts";
 import { useMemo } from "react";
-import BoxHeader from "@/components/BoxHeder";
+import BoxHeader from "@/components/BoxHeader";
 type Props = {};
 
 const Row1 = (props: Props) => {

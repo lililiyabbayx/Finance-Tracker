@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../model/User");
+const { seedCategoriesForUser } = require('../utils/categorySeeder');
 
 // Register User
 exports.register = async (req, res, next) => {
@@ -16,6 +17,9 @@ exports.register = async (req, res, next) => {
     });
 
     await newUser.save();
+    
+    // Seed default categories for the new user
+    await seedCategoriesForUser(newUser._id);
 
     res.status(201).json({
       message: "User registered successfully",

@@ -50,13 +50,19 @@ const SignupPage = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3300/api/v1/users/register", {
+      const response = await fetch("http://localhost:3303/api/v1/users/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: 'include',
         body: JSON.stringify({ email, password, username, role }),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to register');
+      }
 
       const data = await response.json();
 
