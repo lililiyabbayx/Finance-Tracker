@@ -91,6 +91,60 @@ const Navbar = () => {
                 <DashboardIcon sx={{ mr: 2, color: "white" }} />
                 <ListItemText primary="Dashboard" />
               </ListItemButton>
+              <ListItemButton
+                selected={selected === "/business-dashboard/revenue&expense"}
+                component={Link}
+                to="/business-dashboard/revenue&expense"
+                sx={{
+                  backgroundColor:
+                    selected === "/business-dashboard/revenue&expense"
+                      ? "black"
+                      : "transparent",
+                  color: "white",
+                  "&.Mui-selected": {
+                    backgroundColor: "black", // Ensures selected state overrides default styles
+                  },
+                  "&.Mui-selected:hover": {
+                    backgroundColor: "black", // Keeps it black on hover when selected
+                  },
+                  "&:hover": {
+                    backgroundColor:
+                      selected === "/business-dashboard/revenue&expense"
+                        ? "black"
+                        : "#003f9a", // Lighter blue for hover
+                  },
+                }}
+              >
+                <DashboardIcon sx={{ mr: 2, color: "white" }} />
+                <ListItemText primary="Revenue & Expense" />
+              </ListItemButton>
+              <ListItemButton
+                selected={selected === "/business-dashboard/transaction"}
+                component={Link}
+                to="/business-dashboard/transaction"
+                sx={{
+                  backgroundColor:
+                    selected === "/business-dashboard/transaction"
+                      ? "black"
+                      : "transparent",
+                  color: "white",
+                  "&.Mui-selected": {
+                    backgroundColor: "black", // Ensures selected state overrides default styles
+                  },
+                  "&.Mui-selected:hover": {
+                    backgroundColor: "black", // Keeps it black on hover when selected
+                  },
+                  "&:hover": {
+                    backgroundColor:
+                      selected === "/business-dashboard/transaction"
+                        ? "black"
+                        : "#003f9a", // Lighter blue for hover
+                  },
+                }}
+              >
+                <DashboardIcon sx={{ mr: 2, color: "white" }} />
+                <ListItemText primary="Transaction" />
+              </ListItemButton>
 
               <ListItemButton
                 selected={selected === "/business-dashboard/predictions"}

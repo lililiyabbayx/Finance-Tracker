@@ -8,6 +8,8 @@ import { themeSettings } from "@/theme";
 import Box from "@mui/material/Box";
 import Predictions from "./businesspages/prediction";
 import Home from "@/scenes/dashboard/index";
+import RevenueandExpense from "./businesspages/revenue&expense";
+import Transactions from "./businesspages/transactions";
 const BusinessDashboard = () => {
   const theme = useMemo(() => createTheme(themeSettings), []);
 
@@ -27,6 +29,8 @@ const BusinessDashboard = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/predictions" element={<Predictions />} />
+      <Route path="/revenue&expense" element={<RevenueandExpense />} />
+      <Route path="/transaction" element={<Transactions />} />
     </Routes>
   </Box>
 </Box>
