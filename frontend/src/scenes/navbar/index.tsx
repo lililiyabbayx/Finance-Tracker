@@ -147,12 +147,12 @@ const Navbar = () => {
               </ListItemButton>
 
               <ListItemButton
-                selected={selected === "/business-dashboard/predictions"}
+                selected={selected === "/business-dashboard/Analytics"}
                 component={Link}
-                to="/business-dashboard/predictions"
+                to="/business-dashboard/Analytics"
                 sx={{
                   backgroundColor:
-                    selected === "/business-dashboard/predictions"
+                    selected === "/business-dashboard/Analytics"
                       ? "black"
                       : "transparent",
                   color: "white",
@@ -164,14 +164,14 @@ const Navbar = () => {
                   },
                   "&:hover": {
                     backgroundColor:
-                      selected === "/business-dashboard/predictions"
+                      selected === "/business-dashboard/Analytics"
                         ? "black"
                         : "#003f9a",
                   },
                 }}
               >
                 <BarChartIcon sx={{ mr: 2 }} />
-                <ListItemText primary="Predictions" />
+                <ListItemText primary="Analytics" />
               </ListItemButton>
             </List>
           </Box>

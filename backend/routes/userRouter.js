@@ -17,6 +17,5 @@ userRouter.post("/api/v1/users/register", userController.register);
 userRouter.post("/api/v1/users/login", userController.login);
 
 // Get User Profile
-userRouter.get("/api/v1/users/profile", isAuth, userController.profile);
 
 module.exports = userRouter;

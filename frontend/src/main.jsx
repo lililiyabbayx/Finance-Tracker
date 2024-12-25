@@ -6,17 +6,19 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { kpiApi } from "@/states/kpiApi";
 import { transactionApi } from "@/states/transactionApi"; // Correct import for transactionApi
-
+import { analyticsApi } from "@/states/analyticsApi";
 // Configure the store
 export const store = configureStore({
   reducer: {
     [kpiApi.reducerPath]: kpiApi.reducer,
     [transactionApi.reducerPath]: transactionApi.reducer, // Add the transactionApi reducer
+    [analyticsApi.reducerPath]: analyticsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       kpiApi.middleware,
-      transactionApi.middleware // Add the transactionApi middleware
+      transactionApi.middleware, // Add the transactionApi middleware
+      analyticsApi.middleware
     ),
 });
 

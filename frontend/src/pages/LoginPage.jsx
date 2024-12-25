@@ -41,13 +41,15 @@ const LoginPage = () => {
         body: JSON.stringify({ email, password }),
         credentials: "include", // Ensures cookies are sent/received
       });
-  
+
       const data = await response.json();
-  
+
       if (data.token) {
-        // Store token in localStorage
-        localStorage.setItem("authToken", data.token);
-        navigate(data.redirectUrl || "/dashboard"); // Redirect to the appropriate page
+        // Store token in localStorage with the correct key
+        localStorage.setItem("token", data.token); // Ensure the token is saved as 'token'
+
+        // Redirect to the appropriate page based on role
+        navigate(data.redirectUrl || "/dashboard");
       } else {
         setErrorMessage(data.message || "Login failed. Please try again.");
       }
@@ -58,8 +60,6 @@ const LoginPage = () => {
       setLoading(false);
     }
   };
-  
-  
 
   return (
     <ThemeProvider theme={customTheme}>
@@ -69,7 +69,7 @@ const LoginPage = () => {
           justifyContent: 'center',
           alignItems: 'center',
           height: '100vh',
-          background: 'linear-gradient(to bottom, #0650C6,rgb(197, 196, 228))', // Blue to white gradient
+          background: 'linear-gradient(to bottom, #0650C6,rgb(197, 196, 228))', 
         }}
       >
         <Paper elevation={5} sx={{ padding: 4, borderRadius: 3, maxWidth: 400, width: '100%' }}>
@@ -84,7 +84,6 @@ const LoginPage = () => {
                 fullWidth
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                sx={{ borderRadius: 2 }}
               />
               <TextField
                 label="Password"
@@ -93,7 +92,6 @@ const LoginPage = () => {
                 fullWidth
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                sx={{ borderRadius: 2 }}
               />
               {errorMessage && (
                 <Typography color="error" sx={{ textAlign: "center" }}>
@@ -109,9 +107,6 @@ const LoginPage = () => {
                   borderRadius: 2,
                   padding: "10px 0",
                   fontWeight: 600,
-                  '&:hover': {
-                    backgroundColor: '#1565c0',
-                  },
                 }}
                 disabled={loading}
               >

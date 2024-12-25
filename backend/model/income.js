@@ -1,3 +1,4 @@
+// Updated Income Model
 const mongoose = require("mongoose");
 
 const incomeSchema = new mongoose.Schema(
@@ -7,13 +8,17 @@ const incomeSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    transactionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Transaction", // Link to the Transaction model
+      required: true,
+    },
     category: { type: String, required: true },
     amount: { type: Number, required: true },
     date: { type: Date, required: true },
     description: { type: String, required: true },
   },
   {
-    // Index for faster querying by userId
     indexes: [{ userId: 1 }],
   }
 );

@@ -1,4 +1,3 @@
-// controllers/userController.js
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../model/User");
@@ -7,7 +6,6 @@ exports.register = async (req, res, next) => {
   const { username, email, password, role } = req.body;
 
   try {
-    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
@@ -61,7 +59,6 @@ exports.login = async (req, res, next) => {
       { expiresIn: "24h" }
     );
 
-    // Set redirectUrl based on role
     const redirectUrl = `/${user.role}-dashboard`;
 
     res.status(200).json({
@@ -75,18 +72,6 @@ exports.login = async (req, res, next) => {
         role: user.role,
       },
     });
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.profile = async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user).select("-password");
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.status(200).json({ user });
   } catch (error) {
     next(error);
   }

@@ -10,7 +10,7 @@ const cookieParser = require("cookie-parser");
 const userRouter = require("./routes/userRouter");
 const transactionRouter = require("./routes/transactionRouter");
 const errorHandlerMiddleware = require("./middlewares/errorHandlerMiddleware");
-
+const analyticsRouter = require("./routes/analyticsRouter");
 const app = express();
 const PORT = process.env.PORT || 3300;
 
@@ -21,8 +21,9 @@ mongoose
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5173", // Frontend URL
     credentials: true,
+    allowedHeaders: ["Authorization", "Content-Type"], // Include Authorization header
   })
 );
 
@@ -36,6 +37,7 @@ app.use(cookieParser());
 // Routes
 app.use("/", userRouter);
 app.use("/api/v1/transactions", transactionRouter);
+app.use("/api/v1/analytics", analyticsRouter);
 
 // Error handler
 app.use(errorHandlerMiddleware);

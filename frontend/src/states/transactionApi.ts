@@ -9,7 +9,7 @@ export const transactionApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: API_URL,
     prepareHeaders: (headers) => {
-      // Get the token from localStorage (or wherever it's stored)
+      // Get the token from localStorage
       const token = localStorage.getItem("token");
 
       // If the token exists, add it to the Authorization header
@@ -20,16 +20,15 @@ export const transactionApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Transaction"], // Optional: for cache invalidation
+  tagTypes: ["Transaction"],
 
   endpoints: (builder) => ({
     fetchTransactions: builder.query<Transaction[], void>({
       query: () => "/",
       transformResponse: (response: Transaction[]) => {
-        // Ensure `id` is included (in case `_id` is used in the DB)
         return response.map((transaction) => ({
           ...transaction,
-          id: transaction._id || transaction.id, // Normalize _id to id
+          id: transaction._id || transaction.id,
         }));
       },
     }),
@@ -62,7 +61,7 @@ export const transactionApi = createApi({
   }),
 });
 
-// Export hooks to use the endpoints
+// Export hooks
 export const {
   useFetchTransactionsQuery,
   useAddTransactionMutation,

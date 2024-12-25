@@ -6,7 +6,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "@/theme";
 import Box from "@mui/material/Box";
-import Predictions from "./businesspages/prediction";
+import Analytics from "./businesspages/analytics";
 import Home from "@/scenes/dashboard/index";
 import RevenueandExpense from "./businesspages/revenue&expense";
 import Transactions from "./businesspages/transactions";
@@ -28,7 +28,7 @@ const BusinessDashboard = () => {
   >
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/predictions" element={<Predictions />} />
+      <Route path="/analytics" element={<Analytics />} />
       <Route path="/revenue&expense" element={<RevenueandExpense />} />
       <Route path="/transaction" element={<Transactions />} />
     </Routes>

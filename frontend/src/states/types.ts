@@ -41,3 +41,20 @@ export interface Transaction {
   type: "income" | "expense";
   date: string;
 }
+
+export interface RevenueExpenseData {
+  _id: string;
+  total: number;
+}
+
+export interface RevenueExpenseComparisonData {
+  revenue: RevenueExpenseData[];
+  expenses: RevenueExpenseData[];
+}
+
+export interface RevenueProfitData {
+  totalIncome: number;
+  totalExpense: number;
+  profit: number;
+  totalRevenue: number;
+}
