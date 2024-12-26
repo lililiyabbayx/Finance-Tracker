@@ -173,6 +173,33 @@ const Navbar = () => {
                 <BarChartIcon sx={{ mr: 2 }} />
                 <ListItemText primary="Analytics" />
               </ListItemButton>
+              <ListItemButton
+                selected={selected === "/business-dashboard/Chatbot"}
+                component={Link}
+                to="/business-dashboard/Chatbot"
+                sx={{
+                  backgroundColor:
+                    selected === "/business-dashboard/Chatbot"
+                      ? "black"
+                      : "transparent",
+                  color: "white",
+                  "&.Mui-selected": {
+                    backgroundColor: "black",
+                  },
+                  "&.Mui-selected:hover": {
+                    backgroundColor: "black",
+                  },
+                  "&:hover": {
+                    backgroundColor:
+                      selected === "/business-dashboard/Chatbot"
+                        ? "black"
+                        : "#003f9a",
+                  },
+                }}
+              >
+                <BarChartIcon sx={{ mr: 2 }} />
+                <ListItemText primary="Chatbot" />
+              </ListItemButton>
             </List>
           </Box>
         </Drawer>

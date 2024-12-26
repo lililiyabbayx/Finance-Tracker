@@ -58,3 +58,7 @@ export interface RevenueProfitData {
   profit: number;
   totalRevenue: number;
 }
+export type ChatMessage = {
+  role: "assistant" | "user";
+  content: string;
+};

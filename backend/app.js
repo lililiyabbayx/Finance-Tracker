@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
-
+const chatbotRouter = require("./routes/chatbotRouter"); // Ensure path is correct
 const userRouter = require("./routes/userRouter");
 const transactionRouter = require("./routes/transactionRouter");
 const errorHandlerMiddleware = require("./middlewares/errorHandlerMiddleware");
@@ -38,7 +38,7 @@ app.use(cookieParser());
 app.use("/", userRouter);
 app.use("/api/v1/transactions", transactionRouter);
 app.use("/api/v1/analytics", analyticsRouter);
-
+app.use("/api/chatbot", chatbotRouter);
 // Error handler
 app.use(errorHandlerMiddleware);
 

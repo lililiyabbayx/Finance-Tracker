@@ -10,6 +10,7 @@ import Analytics from "./businesspages/analytics";
 import Home from "@/scenes/dashboard/index";
 import RevenueandExpense from "./businesspages/revenue&expense";
 import Transactions from "./businesspages/transactions";
+import ChatInterface from "./businesspages/chatInterface";
 const BusinessDashboard = () => {
   const theme = useMemo(() => createTheme(themeSettings), []);
 
@@ -31,6 +32,7 @@ const BusinessDashboard = () => {
       <Route path="/analytics" element={<Analytics />} />
       <Route path="/revenue&expense" element={<RevenueandExpense />} />
       <Route path="/transaction" element={<Transactions />} />
+      <Route path="/chatbot" element={<ChatInterface />} />
     </Routes>
   </Box>
 </Box>
