@@ -22,9 +22,9 @@ mongoose
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN, // Can use dynamic environment variables for production
-    credentials: true,
-    allowedHeaders: ["Authorization", "Content-Type"],
+    origin: "*", // Allows all origins
+    credentials: false, // Disables credentials
+    allowedHeaders: ["Authorization", "Content-Type"], // Optional: You can also remove this line
   })
 );
 
