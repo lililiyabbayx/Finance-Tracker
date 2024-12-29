@@ -2,13 +2,15 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
-// https://vite.dev/config/
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  build: {
+    outDir: "dist", // Ensure Vite outputs to the dist folder
+  },
   resolve: {
     alias: {
-      // eslint-disable-next-line no-undef
-      "@": path.resolve(__dirname, "src"), // Ensure this is correctly pointing to the src directory
+      "@": path.resolve(__dirname, "src"),
     },
   },
 });
