@@ -22,12 +22,11 @@ mongoose
 
 app.use(
   cors({
-    origin: "*", // Allows all origins
-    credentials: false, // Disables credentials
-    allowedHeaders: ["Authorization", "Content-Type"], // Optional: You can also remove this line
+    origin: process.env.CORS_ORIGIN || "*", // Use the env variable or fallback to wildcard
+    credentials: true, // Allow credentials (cookies, authorization headers)
+    allowedHeaders: ["Authorization", "Content-Type"], // Optional headers you want to allow
   })
 );
-
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
@@ -37,7 +36,7 @@ app.use(cookieParser());
 
 // Routes
 app.use("/", userRouter);
-app.use("/api/v1/users", userRouter);
+
 app.use("/api/v1/transactions", transactionRouter);
 app.use("/api/v1/analytics", analyticsRouter);
 app.use("/api/v1/chatbot", chatbotRouter);
