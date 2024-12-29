@@ -22,11 +22,13 @@ mongoose
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "*", // Use the env variable or fallback to wildcard
-    credentials: true, // Allow credentials (cookies, authorization headers)
-    allowedHeaders: ["Authorization", "Content-Type"], // Optional headers you want to allow
+    origin: process.env.CORS_ORIGIN, // Missing comma added here
+    credentials: true, // Enable cookies/authorization headers
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow these methods
+    allowedHeaders: ["Authorization", "Content-Type"], // Explicitly allow headers
   })
 );
+
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
