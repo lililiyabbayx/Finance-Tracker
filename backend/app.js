@@ -37,6 +37,7 @@ app.use(cookieParser());
 
 // Routes
 app.use("/", userRouter);
+app.use("/api/v1/users", userRouter);
 app.use("/api/v1/transactions", transactionRouter);
 app.use("/api/v1/analytics", analyticsRouter);
 app.use("/api/v1/chatbot", chatbotRouter);
