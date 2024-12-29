@@ -64,10 +64,11 @@ exports.chatbotResponse = async (req, res) => {
 
       **User Transaction Data**: ${JSON.stringify(transactions)}
 
-      Please consider the following when analyzing the user’s financial situation:
+      Please consider the following when analyzing the user’s financial situation: 
       - Compare their current spending habits to best practices in personal finance management.
       - Suggest practical and achievable steps the user can take to improve their financial health, tailored to their specific income and expense data.
       - Ensure the advice is actionable, simple to understand, and encourages a path toward financial stability, growth, and future planning.
+      - Provide clear explanations for any financial jargon or technical terms used in your responses.
     `;
 
     // Call the external chatbot API
