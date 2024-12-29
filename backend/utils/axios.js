@@ -1,8 +1,8 @@
-// src/utils/axios.js
 import axios from "axios";
 
+// Dynamically use the base URL from environment variables
 const api = axios.create({
-  baseURL: "http://localhost:3300", // Backend API URL (make sure your backend is running on this port)
+  baseURL: import.meta.env.VITE_BASE_URL || "http://localhost:3300/api/v1", // Fallback to localhost in case env variable is not set
   headers: {
     "Content-Type": "application/json",
   },

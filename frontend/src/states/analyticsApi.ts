@@ -4,13 +4,13 @@ import {
   RevenueProfitData,
 } from "@/states/types";
 
-// API URL for your backend
-const API_URL = "http://localhost:3300/api/v1/analytics"; // Update this URL as needed
+// Dynamically use the base URL from environment variables
+const API_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3300/api/v1"; // Use the base URL from .env or fallback to localhost
 
 export const analyticsApi = createApi({
   reducerPath: "analyticsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: API_URL,
+    baseUrl: `${API_URL}/analytics`, // Add '/analytics' to the base URL dynamically
     prepareHeaders: (headers) => {
       // Get the token from localStorage and set the Authorization header
       const token = localStorage.getItem("token");

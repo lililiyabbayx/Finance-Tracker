@@ -33,7 +33,8 @@ const LoginPage = () => {
     setErrorMessage(""); // Clear previous errors
   
     try {
-      const response = await fetch("http://localhost:3300/api/v1/users/login", {
+      const API_BASE_URL = import.meta.env.VITE_BASE_URL; // Dynamically load the base URL
+      const response = await fetch(`${API_BASE_URL}/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,14 +42,11 @@ const LoginPage = () => {
         body: JSON.stringify({ email, password }),
         credentials: "include", // Ensures cookies are sent/received
       });
-
+  
       const data = await response.json();
-
+  
       if (data.token) {
-        // Store token in localStorage with the correct key
         localStorage.setItem("token", data.token); // Ensure the token is saved as 'token'
-
-        // Redirect to the appropriate page based on role
         navigate(data.redirectUrl || "/dashboard");
       } else {
         setErrorMessage(data.message || "Login failed. Please try again.");
@@ -60,6 +58,7 @@ const LoginPage = () => {
       setLoading(false);
     }
   };
+  
 
   return (
     <ThemeProvider theme={customTheme}>

@@ -10,13 +10,13 @@ interface ChatResponse {
   reply: string;
 }
 
-// API URL for your backend
-const API_URL = "http://localhost:3300/api/chatbot"; // Update this URL if needed
+// Dynamically use the base URL from environment variables
+const API_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3300/api/v1"; // Use the base URL from .env or fallback to localhost
 
 export const chatApi = createApi({
   reducerPath: "chatApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: API_URL,
+    baseUrl: `${API_URL}/chatbot`, // Add '/chatbot' to the base URL dynamically
     prepareHeaders: (headers) => {
       // Get the token from localStorage and set the Authorization header
       const token = localStorage.getItem("token");
@@ -43,7 +43,7 @@ export const chatApi = createApi({
           messages
         ); // Log the data sent
         return {
-          url: "/chatbot",
+          url: "/chatbot", // Ensure this endpoint is relative to the base URL
           method: "POST",
           body: { userId, messages },
         };

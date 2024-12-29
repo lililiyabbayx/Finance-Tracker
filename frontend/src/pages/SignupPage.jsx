@@ -55,7 +55,11 @@ const SignupPage = () => {
     }
   
     try {
-      const response = await fetch("http://localhost:3300/api/v1/users/register", {
+      // Use the environment variable for the base URL
+      const API_BASE_URL = import.meta.env.VITE_BASE_URL; // For Vite
+      // const API_BASE_URL = process.env.REACT_APP_BASE_URL; // For Create React App
+  
+      const response = await fetch(`${API_BASE_URL}/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,6 +80,7 @@ const SignupPage = () => {
       alert("Something went wrong. Please try again.");
     }
   };
+  
   
 
   return (

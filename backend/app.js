@@ -11,6 +11,7 @@ const userRouter = require("./routes/userRouter");
 const transactionRouter = require("./routes/transactionRouter");
 const errorHandlerMiddleware = require("./middlewares/errorHandlerMiddleware");
 const analyticsRouter = require("./routes/analyticsRouter");
+const kpiRouter = require("./routes/kpi");
 const app = express();
 const PORT = process.env.PORT || 3300;
 
@@ -21,9 +22,9 @@ mongoose
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // Frontend URL
+    origin: process.env.CORS_ORIGIN, // Can use dynamic environment variables for production
     credentials: true,
-    allowedHeaders: ["Authorization", "Content-Type"], // Include Authorization header
+    allowedHeaders: ["Authorization", "Content-Type"],
   })
 );
 
@@ -38,7 +39,8 @@ app.use(cookieParser());
 app.use("/", userRouter);
 app.use("/api/v1/transactions", transactionRouter);
 app.use("/api/v1/analytics", analyticsRouter);
-app.use("/api/chatbot", chatbotRouter);
+app.use("/api/v1/chatbot", chatbotRouter);
+app.use("/api/v1/kpi", kpiRouter);
 // Error handler
 app.use(errorHandlerMiddleware);
 
