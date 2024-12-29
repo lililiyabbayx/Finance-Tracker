@@ -1,22 +1,23 @@
+// vite.config.ts
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
-// Vite configuration
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: "dist", // Output build directory
+    outDir: "dist", // Output directory for the build
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"), // Set alias to "src"
+      "@": path.resolve(__dirname, "src"), // Alias to "src"
     },
   },
   server: {
-    port: 5173, // Set the port for the dev server (optional, as you're running `npm run dev`)
+    port: 5173, // Development server port
   },
   preview: {
-    port: 5173, // Set the port for the preview server (for production build preview)
+    port: 5173, // Production preview server port
+    host: "0.0.0.0", // Allow access on local network
   },
 });

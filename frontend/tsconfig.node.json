@@ -1,9 +1,19 @@
 {
-    "compilerOptions": {
-      "composite": true,
-      "module": "ESNext",
-      "moduleResolution": "Node",
-      "allowSyntheticDefaultImports": true
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
     },
-    "include": ["vite.config.ts"]
-  }
+    "composite": true // Add this line
+  },
+  "include": ["src/**/*", "vite.config.ts"],
+  "exclude": ["node_modules"]
+}
