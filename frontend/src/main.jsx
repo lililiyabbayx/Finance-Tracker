@@ -1,11 +1,64 @@
+import ReactDOM from "react-dom/client";
+import App from "@/App";
+import "@/index.css";
+import { Provider } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/query";
+import { kpiApi } from "@/states/kpiApi";
+import { transactionApi } from "@/states/transactionApi"; 
+import { analyticsApi } from "@/states/analyticsApi";
+import { financialWidgetsApi } from "@/states/financialWidgetsApi";
+import { recurrentEntriesApi } from "@/states/recurrentEntriesApi";
+import { financialInsightsApi } from "@/states/financialInsightsApi";
+import { travelExpensesApi } from "@/states/travelExpensesApi";
+import { 
+  createBrowserRouter, 
+  RouterProvider, 
+  createRoutesFromElements,
+  Route 
+} from "react-router-dom";
 
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App';
+// Configure the store
+export const store = configureStore({
+  reducer: {
+    [kpiApi.reducerPath]: kpiApi.reducer,
+    [transactionApi.reducerPath]: transactionApi.reducer, 
+    [analyticsApi.reducerPath]: analyticsApi.reducer,
+    [financialWidgetsApi.reducerPath]: financialWidgetsApi.reducer,
+    [recurrentEntriesApi.reducerPath]: recurrentEntriesApi.reducer,
+    [financialInsightsApi.reducerPath]: financialInsightsApi.reducer,
+    [travelExpensesApi.reducerPath]: travelExpensesApi.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(
+      kpiApi.middleware,
+      transactionApi.middleware, 
+      analyticsApi.middleware,
+      financialWidgetsApi.middleware,
+      recurrentEntriesApi.middleware,
+      financialInsightsApi.middleware,
+      travelExpensesApi.middleware
+    ),
+});
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+setupListeners(store.dispatch);
+
+// Create router with future flags enabled
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="*" element={<App />} />
+  ),
+  {
+    future: {
+      v7_startTransition: true,
+      v7_relativeSplatPath: true
+    }
+  }
+);
+
+// Render the app
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
 );

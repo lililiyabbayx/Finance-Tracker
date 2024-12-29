@@ -2,11 +2,15 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../model/User");
 
-// Register User
 exports.register = async (req, res, next) => {
   const { username, email, password, role } = req.body;
 
   try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
       username,
@@ -19,13 +23,17 @@ exports.register = async (req, res, next) => {
 
     res.status(201).json({
       message: "User registered successfully",
+      user: {
+        username: newUser.username,
+        email: newUser.email,
+        role: newUser.role,
+      },
     });
   } catch (error) {
     next(error);
   }
 };
 
-// Login User
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -43,33 +51,27 @@ exports.login = async (req, res, next) => {
     }
 
     const token = jwt.sign(
-      { id: user._id, role: user.role },
+      {
+        id: user._id,
+        role: user.role,
+      },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "24h" }
     );
 
-    let redirectUrl = "";
+    const redirectUrl = `/${user.role}-dashboard`;
 
-    // Decide the redirect URL based on the user role
-    if (user.role === "admin") {
-      redirectUrl = "/admin-dashboard";
-    } else if (user.role === "business") {
-      redirectUrl = "/business-dashboard";
-    } else {
-      redirectUrl = "/personal-dashboard";
-    }
-
-    res.json({ token, redirectUrl });
-  } catch (error) {
-    next(error);
-  }
-};
-
-// Get User Profile
-exports.profile = async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user);
-    res.status(200).json({ user });
+    res.status(200).json({
+      message: "Login successful",
+      token,
+      redirectUrl,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (error) {
     next(error);
   }

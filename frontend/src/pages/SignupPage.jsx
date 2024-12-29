@@ -48,7 +48,12 @@ const SignupPage = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-
+  
+    if (!email || !password || !username || !role) {
+      alert("Please fill in all the fields.");
+      return;
+    }
+  
     try {
       const response = await fetch("http://localhost:3300/api/v1/users/register", {
         method: "POST",
@@ -57,9 +62,9 @@ const SignupPage = () => {
         },
         body: JSON.stringify({ email, password, username, role }),
       });
-
+  
       const data = await response.json();
-
+  
       if (response.ok) {
         alert("Signup successful! Please log in.");
         navigate("/login");
@@ -71,6 +76,7 @@ const SignupPage = () => {
       alert("Something went wrong. Please try again.");
     }
   };
+  
 
   return (
     <SignUpContainer direction="column" justifyContent="space-between">
@@ -139,7 +145,8 @@ const SignupPage = () => {
               <option value="business">Business</option>
             </TextField>
           </FormControl>
-          <Button type="submit" fullWidth variant="contained">
+          <Button type="submit" fullWidth variant="contained" color="primary" >
+
             Sign Up
           </Button>
         </Box>
