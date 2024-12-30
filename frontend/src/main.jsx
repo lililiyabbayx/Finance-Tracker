@@ -11,12 +11,6 @@ import { financialWidgetsApi } from "@/states/financialWidgetsApi";
 import { recurrentEntriesApi } from "@/states/recurrentEntriesApi";
 import { financialInsightsApi } from "@/states/financialInsightsApi";
 import { travelExpensesApi } from "@/states/travelExpensesApi";
-import { 
-  createBrowserRouter, 
-  RouterProvider, 
-  createRoutesFromElements,
-  Route 
-} from "react-router-dom";
 
 // Configure the store
 export const store = configureStore({
@@ -43,22 +37,8 @@ export const store = configureStore({
 
 setupListeners(store.dispatch);
 
-// Create router with future flags enabled
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="*" element={<App />} />
-  ),
-  {
-    future: {
-      v7_startTransition: true,
-      v7_relativeSplatPath: true
-    }
-  }
-);
-
-// Render the app
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <RouterProvider router={router} />
+    <App />
   </Provider>
 );

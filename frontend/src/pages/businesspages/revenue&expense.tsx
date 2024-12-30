@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useGetKpisQuery } from "@/states/kpiApi";
 import { Box, List, ListItem, ListItemText, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import Navbar from "@/scenes/navbar"; // Ensure this path is correct
+import Navbar from "@/components/Navbar"; // Ensure this path is correct
 import {
   AreaChart,
   ResponsiveContainer,
