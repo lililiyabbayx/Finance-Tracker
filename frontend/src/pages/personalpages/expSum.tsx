@@ -50,6 +50,12 @@ interface TransactionSummary {
         expenses: number;
         net: number;
     }[];
+    dailyTrend: {
+        day: string;
+        income: number;
+        expenses: number;
+        net: number;
+    }[];
 }
 
 const ExpenseSum: React.FC = () => {
@@ -61,6 +67,7 @@ const ExpenseSum: React.FC = () => {
         categoryBreakdown: [],
         monthlyTrend: [],
         weeklyTrend: [],
+        dailyTrend: [],
     });
 
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
@@ -70,21 +77,24 @@ const ExpenseSum: React.FC = () => {
             try {
                 const response = await transactionApi.getStats();
                 if (response.success && response.data) {
-                    const { totalIncome = 0, totalExpenses = 0, byCategory = {} } = response.data;
+                    const { totalIncome = 0, totalExpenses = 0, byCategory = {}, monthlyTrend = [], weeklyTrend = [], dailyTrend = [] } = response.data;
                     
                     // Transform category data
                     const categoryBreakdown = Object.entries(byCategory).map(([category, data]: [string, any]) => ({
                         category,
-                        amount: data.total || 0,
+                        amount: data?.total || 0,
                     }));
 
                     setSummary({
                         totalIncome,
                         totalExpense: totalExpenses,
                         categoryBreakdown,
-                        monthlyTrend: [], // We'll implement this later
-                        weeklyTrend: [], // We'll implement this later
+                        monthlyTrend,
+                        weeklyTrend,
+                        dailyTrend,
                     });
+                } else {
+                    console.error('Error fetching summary:', response.error);
                 }
             } catch (error) {
                 console.error('Error fetching summary:', error);
@@ -95,6 +105,24 @@ const ExpenseSum: React.FC = () => {
 
         fetchSummary();
     }, []);
+
+    const calculateProfitMargin = () => {
+        return summary.totalIncome - summary.totalExpense;
+    };
+
+    const calculateDailyProfitMargin = () => {
+        return summary.dailyTrend.map(day => ({
+            ...day,
+            net: day.income - day.expenses
+        }));
+    };
+
+    const calculateWeeklyProfitMargin = () => {
+        return summary.weeklyTrend.map(week => ({
+            ...week,
+            net: week.income - week.expenses
+        }));
+    };
 
     if (loading) {
         return (
@@ -148,6 +176,18 @@ const ExpenseSum: React.FC = () => {
                         </CardContent>
                     </Card>
                 </Grid>
+                <Grid item xs={12} md={4}>
+                    <Card>
+                        <CardContent>
+                            <Typography color="textSecondary" gutterBottom>
+                                Profit Margin
+                            </Typography>
+                            <Typography variant="h5">
+                                ${calculateProfitMargin().toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </Grid>
             </Grid>
 
             {/* Category Breakdown */}
@@ -160,11 +200,7 @@ const ExpenseSum: React.FC = () => {
                         {/* Pie Chart */}
                         <Grid item xs={12} md={6}>
                             <Box sx={{ height: 400 }}>
-                                {loading ? (
-                                    <Box display="flex" justifyContent="center" alignItems="center" height="100%">
-                                        <CircularProgress />
-                                    </Box>
-                                ) : summary.categoryBreakdown?.length > 0 ? (
+                                {summary.categoryBreakdown?.length > 0 ? (
                                     <ResponsiveContainer>
                                         <PieChart>
                                             <Pie
@@ -208,11 +244,7 @@ const ExpenseSum: React.FC = () => {
 
                         {/* Category Details Table */}
                         <Grid item xs={12} md={6}>
-                            {loading ? (
-                                <Box display="flex" justifyContent="center" alignItems="center" p={3}>
-                                    <CircularProgress />
-                                </Box>
-                            ) : summary.categoryBreakdown?.length > 0 ? (
+                            {summary.categoryBreakdown?.length > 0 ? (
                                 <TableContainer>
                                     <Table>
                                         <TableHead>
@@ -291,6 +323,92 @@ const ExpenseSum: React.FC = () => {
                                         labelFormatter={(label) => {
                                             const date = new Date(label + '-01');
                                             return date.toLocaleDateString('default', { month: 'long', year: 'numeric' });
+                                        }}
+                                    />
+                                    <Legend />
+                                    <Bar dataKey="income" name="Income" fill="#00C49F" />
+                                    <Bar dataKey="expenses" name="Expenses" fill="#FF8042" />
+                                    <Bar dataKey="net" name="Net" fill="#8884d8" />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        ) : (
+                            <Box display="flex" justifyContent="center" alignItems="center" height="300px">
+                                <Typography variant="body2" color="textSecondary">
+                                    No trend data available
+                                </Typography>
+                            </Box>
+                        )}
+                    </Paper>
+                </Grid>
+
+                {/* Weekly Trend Chart */}
+                <Grid item xs={12} md={6}>
+                    <Paper sx={{ p: 2, height: '400px' }}>
+                        <Typography variant="h6" gutterBottom>
+                            Weekly Income vs Expenses
+                        </Typography>
+                        {summary.weeklyTrend?.length > 0 ? (
+                            <ResponsiveContainer width="100%" height={300}>
+                                <BarChart data={calculateWeeklyProfitMargin()}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis 
+                                        dataKey="week" 
+                                        tickFormatter={(value) => {
+                                            const date = new Date(value);
+                                            return date.toLocaleDateString('default', { month: 'short', day: 'numeric' });
+                                        }}
+                                    />
+                                    <YAxis />
+                                    <Tooltip 
+                                        formatter={(value: number) => 
+                                            `$${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                                        }
+                                        labelFormatter={(label) => {
+                                            const date = new Date(label);
+                                            return date.toLocaleDateString('default', { month: 'long', day: 'numeric', year: 'numeric' });
+                                        }}
+                                    />
+                                    <Legend />
+                                    <Bar dataKey="income" name="Income" fill="#00C49F" />
+                                    <Bar dataKey="expenses" name="Expenses" fill="#FF8042" />
+                                    <Bar dataKey="net" name="Net" fill="#8884d8" />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        ) : (
+                            <Box display="flex" justifyContent="center" alignItems="center" height="300px">
+                                <Typography variant="body2" color="textSecondary">
+                                    No trend data available
+                                </Typography>
+                            </Box>
+                        )}
+                    </Paper>
+                </Grid>
+
+                {/* Daily Trend Chart */}
+                <Grid item xs={12} md={6}>
+                    <Paper sx={{ p: 2, height: '400px' }}>
+                        <Typography variant="h6" gutterBottom>
+                            Daily Income vs Expenses
+                        </Typography>
+                        {summary.dailyTrend?.length > 0 ? (
+                            <ResponsiveContainer width="100%" height={300}>
+                                <BarChart data={calculateDailyProfitMargin()}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis 
+                                        dataKey="day" 
+                                        tickFormatter={(value) => {
+                                            const date = new Date(value);
+                                            return date.toLocaleDateString('default', { month: 'short', day: 'numeric' });
+                                        }}
+                                    />
+                                    <YAxis />
+                                    <Tooltip 
+                                        formatter={(value: number) => 
+                                            `$${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                                        }
+                                        labelFormatter={(label) => {
+                                            const date = new Date(label);
+                                            return date.toLocaleDateString('default', { month: 'long', day: 'numeric', year: 'numeric' });
                                         }}
                                     />
                                     <Legend />

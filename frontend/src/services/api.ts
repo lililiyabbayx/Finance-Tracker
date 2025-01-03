@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 
 // For development, hardcode the API URL
-const API_URL = 'http://localhost:3303/api';
+const API_URL = 'http://localhost:3300/api';
 
 // Temporary user ID for development
 const TEMP_USER_ID = '67603cd7ec53be790703d3f6'; // This should match the ID in your backend
@@ -49,7 +49,7 @@ api.interceptors.response.use(
 
 export interface TransactionData {
     type: 'expense' | 'income';
-    category: string;
+    category: Category;
     amount: number;
     date: string;
     description?: string;

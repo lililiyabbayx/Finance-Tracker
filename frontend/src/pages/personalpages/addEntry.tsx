@@ -30,6 +30,11 @@ interface FormData {
     description: string;
 }
 
+const sendEmailAlert = (message: string) => {
+    // Your implementation for sending an email alert
+    console.log(`Email alert: ${message}`);
+};
+
 const AddEntry: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({
         type: 'expense' as const,
@@ -58,7 +63,9 @@ const AddEntry: React.FC = () => {
             if (response.success && Array.isArray(response.data)) {
                 setCategories(response.data);
                 if (response.data.length > 0) {
-                    setFormData(prev => ({ ...prev, category: response.data[0]._id }));
+                    if (response.data && response.data.length > 0) {
+                        setFormData(prev => ({ ...prev, category: response.data[0]._id }));
+                    }
                 }
             }
         } catch (error) {
@@ -123,10 +130,10 @@ const AddEntry: React.FC = () => {
             const budgetResponse = await transactionApi.getCurrentBudget();
             if (budgetResponse.success && budgetResponse.data) {
                 const { remaining, spent, totalAmount } = budgetResponse.data;
-                if (remaining < 0) {
+                if ((remaining ?? 0) < 0) {
                     setSnackbar({
                         open: true,
-                        message: `Warning: You've exceeded your monthly budget of ${totalAmount} by ${Math.abs(remaining)}!`,
+                        message: `Warning: You've exceeded your monthly budget of ${totalAmount} by ${Math.abs(remaining ?? 0)}!`,
                         severity: 'error'
                     });
                 }
@@ -169,7 +176,11 @@ const AddEntry: React.FC = () => {
                     });
                     return;
                 }
-                categoryId = categoryResponse.data._id;
+                if (categoryResponse.data) {
+                    categoryId = categoryResponse.data._id;
+                } else {
+                    throw new Error('Failed to create category');
+                }
                 await fetchCategories();
             }
 
@@ -204,6 +215,7 @@ const AddEntry: React.FC = () => {
             }
         } catch (error) {
             console.error('Error submitting form:', error);
+            sendEmailAlert('Error submitting form');
             setSnackbar({
                 open: true,
                 message: error instanceof Error ? error.message : 'Failed to add transaction',

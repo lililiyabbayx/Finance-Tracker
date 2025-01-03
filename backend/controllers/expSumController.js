@@ -13,6 +13,8 @@ const getExpenseSummary = async (req, res) => {
       date: { $gte: new Date(startDate), $lte: new Date(endDate) }
     });
 
+    
+
     // Calculate totals by category
     const categoryTotals = {};
     summary.forEach(record => {

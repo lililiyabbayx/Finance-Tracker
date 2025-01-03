@@ -20,7 +20,7 @@ const errorHandlerMiddleware = require("./middlewares/errorHandlerMiddleware");
 const KPI = require("./model/KPI");
 const { kpis } = require("./data/data");
 
-const PORT = process.env.PORT || 3303;
+const PORT = process.env.PORT || 3300;
 
 // MongoDB URI from environment variables
 const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/finance-tracker';
